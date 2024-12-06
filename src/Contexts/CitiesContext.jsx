@@ -49,12 +49,37 @@ export const CitiesProvider = ({ children }) => {
       setIsLoading(false); // Stop loading
     }
   };
+  const createCity = async (newcity) => {
+    setIsLoading(true); // Start loading
+    try {
+      const res = await fetch(`${URL}/cities`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newcity),
+      });
+      if (!res.ok) {
+        throw new Error(
+          `Failed to fetch city: ${res.status} ${res.statusText}`
+        );
+      }
+      const data = await res.json();
+      setCities((cities) => [...cities, data]);
+    } catch (error) {
+      console.error("Error fetching city:", error);
+      alert(error.message);
+    } finally {
+      setIsLoading(false); // Stop loading
+    }
+  };
 
   const contextValue = {
     cities,
     isLoading,
     currentCity,
     getCity,
+    createCity,
   };
   return (
     <CitiesContext.Provider value={contextValue}>
