@@ -17,6 +17,7 @@ import CountryList from "./Components/CountryList";
 import City from "./Components/City";
 import Form from "./Components/Form";
 import { CitiesProvider } from "./Contexts/citiesContext";
+import { AuthProvider } from "./Contexts/FakeAuthContext";
 
 const App = () => {
   const Router = createBrowserRouter(
@@ -38,9 +39,11 @@ const App = () => {
     )
   );
   return (
-    <CitiesProvider>
-      <RouterProvider router={Router} />
-    </CitiesProvider>
+    <AuthProvider>
+      <CitiesProvider>
+        <RouterProvider router={Router} />
+      </CitiesProvider>
+    </AuthProvider>
   );
 };
 
